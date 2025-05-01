@@ -3,8 +3,8 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "build": "turbo build",
-    "dev": "turbo dev",
+    "build": "pnpm --filter @workspace/db db:push && pnpm --filter @workspace/db db:generate && turbo build",
+    "dev": "pnpm --filter @workspace/db db:push && pnpm --filter @workspace/db db:seed && turbo dev",    
     "lint": "turbo lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },

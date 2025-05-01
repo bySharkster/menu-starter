@@ -1,19 +1,20 @@
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/utils/authOptions"
 import { redirect } from "next/navigation"
-import { Suspense } from "react"
 import SignoutButton from "@/components/atoms/SignoutButton"
+import MenuDashboard from "@/components/organisms/MenuDashboard"
+import { Suspense } from "react"
 
 export default async function Page() {
 
-  const session = await getServerSession(authOptions)
+const session = await getServerSession(authOptions)
 
  const userEmail = session?.user?.email
  const userName = session?.user?.name
  const isAdmin = session?.user?.isAdmin === true
 
  if (!userEmail) {
-   return redirect('/signin')
+  redirect('/signin')
  }
 
 
@@ -28,9 +29,15 @@ export default async function Page() {
             width={100}
             height={100}
             className="rounded-full"
+
           />
         )}
         <SignoutButton/>
+        <div>
+           <Suspense fallback={<div>Loading...</div>}>
+            <MenuDashboard/>
+           </Suspense>
+        </div>
       </div>
     </div>
   )

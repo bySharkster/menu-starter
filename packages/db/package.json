@@ -1,14 +1,17 @@
 {
-  "name": "@workspace/prisma",
+  "name": "@workspace/db",
   "version": "0.0.0",
   "type": "module",
   "private": true,
   "scripts": {
     "lint": "eslint . --max-warnings 0",
-    "build": "prisma generate && prisma migrate deploy",
-    "migrate": "prisma migrate",
-    "migrate:dev": "prisma migrate dev",
-    "generate": "prisma generate"
+    "db:migrate": "prisma migrate deploy",
+    "db:generate": "prisma generate --no-engine",
+    "db:seed": "prisma db seed",
+    "db:push": "prisma db push"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
     "@prisma/client": "^6.6.0",
@@ -22,6 +25,7 @@
     "@types/react-dom": "^19",
     "@workspace/eslint-config": "workspace:*",
     "@workspace/typescript-config": "workspace:*",
+    "tsx": "^4.19.3",
     "typescript": "^5.7.3"
   },
   "exports": {

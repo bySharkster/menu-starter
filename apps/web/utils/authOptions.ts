@@ -2,7 +2,7 @@ import GoogleProvider from 'next-auth/providers/google'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
 
 import { type NextAuthOptions, getServerSession, type User } from 'next-auth'
-import { plainPrisma } from '@workspace/prisma/utils/prismaClient'
+import { plainPrisma } from '@workspace/db/utils/prismaClient'
 
 declare module 'next-auth/jwt' {
 
