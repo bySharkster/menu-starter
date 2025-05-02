@@ -1,27 +1,24 @@
 'use client';
 
 import React from 'react';
-
 import { AnimatePresence, motion } from 'motion/react';
-
-
 import {useTabs, type Tab } from '@/hooks/useTabs';
 import { cn } from '@workspace/ui/lib/utils';
 import type { MenuCategory } from '@workspace/db/types/MenuCategories';
 import type { MenuItem } from '@workspace/db/types/MenuItems';
 import { Button } from '@workspace/ui/components/button';
 import { PlusIcon } from 'lucide-react';
+import { CreateMenuModal } from '../organisms/CreateMenuModal';
+import { useMenuStore } from '@/store/useMenuStore';
 
 interface AnimatedTabsProps {
   tabs: Tab[];
-  categories: MenuCategory[];
-  menuItems: MenuItem[];
+
 }
 
 interface TabContentProps {
   tab: Tab;
-  categories: MenuCategory[];
-  menuItems: MenuItem[];
+
 }
 
 const transition = {
@@ -37,9 +34,10 @@ const getHoverAnimationProps = (hoveredRect: DOMRect, navRect: DOMRect) => ({
   height: hoveredRect.height + 10
 });
 
+const TabContent = ({ tab }: TabContentProps) => {
 
+  const { menuItems, categories } = useMenuStore();
 
-const TabContent = ({ tab, categories, menuItems }: TabContentProps) => {
   return (
     <motion.div
     initial={{ opacity: 0, y: 10 }}
@@ -52,7 +50,7 @@ const TabContent = ({ tab, categories, menuItems }: TabContentProps) => {
       <div>
         <div className="flex items-center justify-between mb-6 gap-2 md:gap-0">
           <h2 className="text-2xl font-bold">Menu Items</h2>
-          <Button size="icon" className="bg-black text-white px-4 py-2 rounded hover:bg-zinc-800 transition"><PlusIcon/></Button>
+         <CreateMenuModal/>
         </div>
         <div className="grid md:grid-cols-2 gap-4">
           {menuItems.map(item => (
@@ -215,7 +213,7 @@ const Tabs = ({
   );
 };
 
-export function AnimatedTabs({ tabs, categories, menuItems }: AnimatedTabsProps) {
+export function AnimatedTabs({ tabs }: AnimatedTabsProps) {
   const [hookProps] = React.useState(() => {
     const initialTabId =
       tabs.find(
@@ -241,7 +239,7 @@ export function AnimatedTabs({ tabs, categories, menuItems }: AnimatedTabsProps)
         <Tabs {...framer.tabProps}  />
       </div>
       <AnimatePresence mode="wait">
-        <TabContent tab={framer.selectedTab as Tab} categories={categories} menuItems={menuItems}/>
+        <TabContent tab={framer.selectedTab as Tab}/>
       </AnimatePresence>
     </div>
   );

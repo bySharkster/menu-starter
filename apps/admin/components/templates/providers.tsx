@@ -1,6 +1,6 @@
 "use client"
 
-import * as React from "react"
+import type * as React from "react"
 import { ThemeProvider as NextThemesProvider } from "next-themes"
 import SessionProvider from '@/context/SessionProvider'
 import type { Session } from "next-auth"
