@@ -15,7 +15,7 @@ export function Providers({ children, session }: { children: React.ReactNode, se
       disableTransitionOnChange
       enableColorScheme
     >
-      {children}
+     {children}
     </NextThemesProvider>
     </SessionProvider>
   )

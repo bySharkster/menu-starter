@@ -29,3 +29,13 @@ To use the components in your app, import them from the `ui` package.
 ```tsx
 import { Button } from "@workspace/ui/components/button"
 ```
+
+## Config
+
+To use the config in your app, import it from the `db` package. Always remeber to update the config in the `db` package when you want to update the config in the `ui` package.
+
+```tsx
+import { siteConfig } from "@workspace/db/utils/config"
+```
+
+

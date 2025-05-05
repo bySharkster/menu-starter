@@ -1,5 +1,5 @@
 export const siteConfig = {
-    siteName: "Menu Starter",
+    siteName: " Menu Starter",
     siteDescription: "Menu Starter",
     siteUrl: "https://menu-starter.vercel.app",
     siteLanguage: "en",

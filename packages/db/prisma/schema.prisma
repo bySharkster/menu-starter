@@ -1,6 +1,5 @@
 generator client {
   provider = "prisma-client-js"
-  // output   = "../generated/prisma"
 }
 
 datasource db {
@@ -10,14 +9,13 @@ datasource db {
 
 model User {
   id            Int       @id @default(autoincrement())
-  name          String?
   email         String?   @unique
-  emailVerified DateTime?
+  name          String?
   image         String?
   isAdmin       Boolean   @default(false)
-
-  accounts Account[]
-  sessions Session[]
+  emailVerified DateTime? @map("email_verified")
+  accounts      Account[]
+  sessions      Session[]
 }
 
 model Account {
@@ -25,7 +23,6 @@ model Account {
   userId            Int
   type              String
   provider          String
-  providerAccountId String
   refresh_token     String?
   access_token      String?
   expires_at        Int?
@@ -33,6 +30,7 @@ model Account {
   scope             String?
   id_token          String?
   session_state     String?
+  providerAccountId String  @map("provider_account_id")
   user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
@@ -40,43 +38,56 @@ model Account {
 
 model Session {
   id           Int      @id @default(autoincrement())
-  sessionToken String   @unique
-  userId       Int
-  expires      DateTime
+  expires      DateTime @map("expires_at")
+  sessionToken String   @unique @map("session_token")
+  userId       Int      @map("user_id")
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model VerificationToken {
   identifier String
   token      String   @unique
-  expires    DateTime
+  expires    DateTime @map("expires_at")
 
   @@unique([identifier, token])
 }
 
 model MenuCategory {
-  id          Int         @id @default(autoincrement())
-  name        String      @unique
+  id          Int        @id @default(autoincrement())
+  name        String     @unique
+  slug        String     @unique
   description String?
-  items       MenuItem[]  @relation("CategoryItems")
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
-
-  @@map("menu_category")
+  position    Int        @default(0)
+  createdAt   DateTime   @default(now()) @map("created_at")
+  updatedAt   DateTime   @updatedAt @map("updated_at")
+  items       MenuItem[] @relation("CategoryItems")
 }
 
 model MenuItem {
   id          Int          @id @default(autoincrement())
   name        String
+  slug        String       @unique
   description String?
   price       Float
   image       String?
   position    Int          @default(0)
-  categoryId  Int
-  category    MenuCategory @relation("CategoryItems", fields: [categoryId], references: [id])
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
+  isAvailable Boolean      @default(true)
+  categoryName String      @map("category_name")
+  createdAt   DateTime     @default(now()) @map("created_at")
+  updatedAt   DateTime     @updatedAt @map("updated_at")
+  category    MenuCategory @relation("CategoryItems", fields: [categoryName], references: [name])
+  menus       Menu[]       @relation("MenusOnItems")
+}
 
-
-  @@map("menu_item")
+model Menu {
+  id          Int        @id @default(autoincrement())
+  name        String
+  slug        String     @unique
+  description String?
+  image       String?
+  position    Int        @default(0)
+  items       MenuItem[] @relation("MenusOnItems")
+  isAvailable Boolean    @default(true)
+  createdAt   DateTime   @default(now()) @map("created_at")
+  updatedAt   DateTime   @updatedAt @map("updated_at")
 }
