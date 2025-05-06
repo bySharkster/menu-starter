@@ -1,8 +1,7 @@
 import type { ReactNode } from "react";
 import { notFound } from "next/navigation";
-import { findItem } from "@/app/actions/menuItems"; // Adjust import as needed
+import { findItem } from "@/app/actions/menuItems";
 
-// 1. Dynamic Metadata for Advanced SEO & OG
 export async function generateMetadata({
   params,
 }: {
@@ -15,7 +14,7 @@ export async function generateMetadata({
   const siteUrl =
     process.env.NEXT_PUBLIC_SITE_URL ||
     "https://menu-starter-admin.vercel.app/";
-  const ogImageUrl = `${siteUrl}/menu/items/item/${item.slug}/opengraph-image`;
+  const ogImageUrl = `${siteUrl}/api/og?title=${item.name}&description=${item.description}`;
 
   return {
     title: `${item.name} | Menu Item`,
@@ -43,14 +42,10 @@ export async function generateMetadata({
   };
 }
 
-// 2. Layout Component
 export default async function ItemLayout({
   children,
 }: {
   children: ReactNode;
 }) {
-  // You can fetch item data here if you want to show it in the layout
-  // const item = await getMenuItemBySlug(params.slug);
-
   return <div>{children}</div>;
 }
