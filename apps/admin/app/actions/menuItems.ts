@@ -72,18 +72,22 @@ export async function updateItem(formData: FormData) {
     await menuItemsOperations.update(Number(id), validatedData)
     
     revalidatePath(menuItemsPath);   
-    redirect(menuItemsPath)
+    return { success: true, message: "Item updated successfully" };
 
-    }catch(error){
-        console.error('Failed to update menu item:', error);
-        throw error;
-    }
+    
+    }catch (error: unknown) {
+        if (error instanceof Error) {
+          return { success: false, message: error.message || "Unknown error" };
+        }
+        return { success: false, message: "Unknown error" };
+      }
 }
 
 export async function deleteItem(id: number) {
     try {
         await menuItemsOperations.delete(id);
         revalidatePath(menuItemsPath);
+        return { success: true, message: "Item deleted successfully" };
     } catch (error) {
         console.error('Failed to delete item:', error);
         throw error;

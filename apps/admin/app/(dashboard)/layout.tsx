@@ -1,7 +1,7 @@
 import "@workspace/ui/globals.css"
 import type { Metadata } from "next"
 import Sidebar from "@/components/organisms/Sidebar"
-import RequireAuth from "@/components/templates/RequireAuth"
+import RequireAuth from "@/components/templates/Wrappers/RequireAuth"
 
 
 export const metadata: Metadata = {

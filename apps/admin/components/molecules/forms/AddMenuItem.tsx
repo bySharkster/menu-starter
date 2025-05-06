@@ -1,5 +1,5 @@
 "use client"
-import React, { useActionState, useEffect } from 'react'
+import React, { useActionState } from 'react'
 import Form from 'next/form'
 import { createItem } from '@/app/actions/menuItems'
 import { Input } from '@workspace/ui/components/input'
@@ -9,9 +9,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import type { MenuCategory } from '@workspace/db/types/MenuCategories'
 import { Textarea } from '@workspace/ui/components/textarea'
 import AddButton from '@/components/atoms/AddButton'
-import { toast } from '@workspace/ui/lib/sonner'
-import { redirect } from 'next/navigation'
 import { menuItemsPath } from '@/lib/paths'
+import { useFormToastAndRedirect } from '@/hooks/useFormToastAndRedirect'
 
 interface AddMenuItemProps {
     categories: MenuCategory[]
@@ -28,17 +27,9 @@ async function createItemReducer(
 
 export function AddMenuItem({categories}: AddMenuItemProps) {
 
-  const [state, formAction] = useActionState(createItemReducer, initialState)
+  const [state, formAction, isPending] = useActionState(createItemReducer, initialState)
 
-  useEffect(() => {
-    if (state.success === true) {
-      toast.success("Item added successfully")
-      redirect(menuItemsPath)
-    }
-    if (state.success === false) {
-      toast.error(state.message)
-    } 
-  }, [state])
+  useFormToastAndRedirect(state, "Item added successfully", menuItemsPath)
 
   return (
     <>
@@ -95,7 +86,7 @@ export function AddMenuItem({categories}: AddMenuItemProps) {
               </div>
             </RadioGroup>
             </div>
-          <AddButton />
+          <AddButton pending={isPending}/>
         </Form>
     </>
   )

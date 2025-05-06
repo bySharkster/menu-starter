@@ -1,12 +1,10 @@
 'use client'
 import { Button } from '@workspace/ui/components/button'
-import { useFormStatus } from 'react-dom'
  
-export default function AddButton() {
+export default function AddButton({pending}: {pending: boolean}) {
 
-  const status = useFormStatus()
 
   return (
-    <Button type="submit" disabled={status.pending}>{status.pending ? 'Creating...' : 'Create'}</Button>
+    <Button type="submit" disabled={pending}>{pending ? 'Creating...' : 'Create'}</Button>
   )
 }

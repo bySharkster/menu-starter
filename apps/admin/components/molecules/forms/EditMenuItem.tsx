@@ -1,4 +1,5 @@
-import React from 'react'
+"use client"
+import React, { useActionState } from 'react'
 import Form from 'next/form'
 import { updateItem } from '@/app/actions/menuItems'
 import { Input } from '@workspace/ui/components/input'
@@ -9,16 +10,32 @@ import type { MenuItem } from '@workspace/db/types/MenuItems'
 import type { MenuCategory } from '@workspace/db/types/MenuCategories'
 import EditButton from '@/components/atoms/EditButton'
 import { Textarea } from '@workspace/ui/components/textarea'
+import { menuItemsPath } from '@/lib/paths'
+import { useFormToastAndRedirect } from '@/hooks/useFormToastAndRedirect'
 
 interface EditMenuItemProps {
     menuItem: MenuItem
     categories: MenuCategory[]
 }
 
+const initialState = { success: false, message: "" };
+
+async function updateItemReducer(
+  state: typeof initialState,
+  formData: FormData
+) {
+  return await updateItem(formData);
+}
+
 export function EditMenuItem({menuItem, categories}: EditMenuItemProps) {
+
+  const [state, formAction, isPending] = useActionState(updateItemReducer, initialState)
+
+  useFormToastAndRedirect(state, "Item updated successfully", menuItemsPath)
+
   return (
     <>
-      <Form action={updateItem} className='flex flex-col gap-4' formMethod="post">
+      <Form action={formAction} className='flex flex-col gap-4' formMethod="post">
             <Input type="hidden" name="id" defaultValue={menuItem.id} />
 
             <div className="flex flex-col gap-2">
@@ -71,7 +88,7 @@ export function EditMenuItem({menuItem, categories}: EditMenuItemProps) {
               </div>
             </RadioGroup>
             </div>
-          <EditButton />
+          <EditButton pending={isPending}/>
         </Form>
     </>
   )
