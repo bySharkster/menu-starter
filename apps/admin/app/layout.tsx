@@ -16,11 +16,6 @@ const fontMono = Geist_Mono({
   variable: "--font-mono",
 });
 
-export const metadata: Metadata = {
-  metadataBase: new URL("https://admin.digital-sunsets.vercel.app"),
-  title: "Admin Starter",
-};
-
 export default async function RootLayout({
   children,
 }: Readonly<{
