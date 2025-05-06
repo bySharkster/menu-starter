@@ -5,12 +5,17 @@ import { getCategories } from "@/app/actions/menuCategories";
 import GoBack from "@/components/atoms/GoBack";
 import { EditMenuItem } from "@/components/molecules/forms/EditMenuItem";
 import { menuItemsPath } from "@/lib/paths";
+import type { Metadata, ResolvingMetadata } from "next";
 
-export async function generateMetadata({
-  params,
-}: {
+type Props = {
   params: Promise<{ slug: string }>;
-}) {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+};
+
+export async function generateMetadata(
+  { params, searchParams }: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
   const { slug } = await params;
   const item = await findItem(undefined, slug);
   if (!item) return notFound();
