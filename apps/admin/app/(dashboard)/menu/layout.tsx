@@ -18,6 +18,19 @@ export const metadata: Metadata = {
       },
     ],
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Menu | Menu Starter",
+    description: "Menu Starter",
+    images: [
+      {
+        url: "https://menu-starter-admin.vercel.app/api/og?title=Menu Starter&description=Menu Starter",
+        width: 1200,
+        height: 630,
+        alt: "Menu Starter",
+      },
+    ],
+  },
 };
 
 export default function MenuLayout({
