@@ -4,8 +4,23 @@ import Sidebar from "@/components/organisms/Sidebar";
 import RequireAuth from "@/components/templates/Wrappers/RequireAuth";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://admin.digital-sunsets.vercel.app"),
-  title: "Dashboard | Admin Starter",
+  metadataBase: new URL("https://menu-starter-admin.vercel.app/"),
+  title: "Dashboard | Menu Starter",
+  openGraph: {
+    title: "Dashboard | Menu Starter",
+    description: "Menu Starter",
+    type: "website",
+    url: "https://menu-starter-admin.vercel.app/",
+    siteName: "Menu Starter",
+    images: [
+      {
+        url: "https://menu-starter-admin.vercel.app/api/og?title=Menu Starter&description=Menu Starter",
+        width: 1200,
+        height: 630,
+        alt: "Menu Starter",
+      },
+    ],
+  },
 };
 
 export default async function DashboardLayout({
