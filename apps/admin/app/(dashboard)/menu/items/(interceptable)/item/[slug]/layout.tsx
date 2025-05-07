@@ -1,13 +1,11 @@
 import { findItem } from "@/app/actions/menuItems";
 import type { Metadata } from "next";
 
-type ItemProps = {
-  params: Promise<{ slug: string }>;
-};
-
 export async function generateMetadata({
   params,
-}: ItemProps): Promise<Metadata> {
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
   const { slug } = await params;
   const item = await findItem(undefined, slug);
   if (!item) return {};
