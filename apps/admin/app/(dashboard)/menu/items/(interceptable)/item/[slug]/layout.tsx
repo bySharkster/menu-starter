@@ -1,19 +1,17 @@
 import { findItem } from "@/app/actions/menuItems";
-import type { Metadata, ResolvingMetadata } from "next";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-type Props = {
+type ItemProps = {
   params: Promise<{ slug: string }>;
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
 
-export async function generateMetadata(
-  { params, searchParams }: Props,
-  parent: ResolvingMetadata
-): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: ItemProps): Promise<Metadata> {
   const { slug } = await params;
   const item = await findItem(undefined, slug);
-  if (!item) return notFound();
+  if (!item) notFound();
 
   const siteUrl =
     process.env.NEXT_PUBLIC_SITE_URL ||
